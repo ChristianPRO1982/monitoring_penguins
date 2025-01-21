@@ -2,3 +2,4 @@ prometheus-fastapi-instrumentator
 uvicorn
 fastapi
 seaborn
+scikit-learn
