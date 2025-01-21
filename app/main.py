@@ -1,13 +1,17 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from prometheus_fastapi_instrumentator import Instrumentator
+from utils import ookk
 
 app = FastAPI()
 
 
 @app.get("/")
 def home():
-    return "Hello World"
+    if ookk():
+        return "Hello, World!"
+    else:
+        return "Nope!"
 
 
 app.add_middleware(
