@@ -1,4 +1,4 @@
 prometheus-fastapi-instrumentator
 uvicorn
 fastapi
-pingouin
+seaborn

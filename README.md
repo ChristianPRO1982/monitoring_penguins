@@ -1,6 +1,9 @@
 # monitoring_pingouin
 Study project for monitoring the dataset pingouin
 
+## Notes
+The root file (requirements.txt) is for testing only, without docker.
+
 ### URL
 * http://localhost:9090/targets
 * http://localhost:9090/metrics
