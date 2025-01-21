@@ -1,5 +1,5 @@
-# monitoring_pingouin
-Study project for monitoring the dataset pingouin
+# monitoring_penguins
+Study project for monitoring the dataset penguins (by seaborn)
 
 ## Notes
 The root file (requirements.txt) is for testing only, without docker.
