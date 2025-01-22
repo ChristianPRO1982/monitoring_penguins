@@ -13,10 +13,10 @@ def init_log()->bool:
         log_filename = f"./logs/{date_str}.log"
 
         if DEBUG != '0':
-            print("§§§§§§§§§§§§§§§§§§§§§§")
-            print("§§§§§ DEBUG MODE §§§§§")
-            print("§§§§§§§§§§§§§§§§§§§§§§")
-            print("Debug mode: ", DEBUG)
+            # print("§§§§§§§§§§§§§§§§§§§§§§")
+            # print("§§§§§ DEBUG MODE §§§§§")
+            # print("§§§§§§§§§§§§§§§§§§§§§§")
+            print("§ Debug mode: ", DEBUG)
             if DEBUG == '1':
                 logging.basicConfig(filename=log_filename, level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
             elif DEBUG == '2':

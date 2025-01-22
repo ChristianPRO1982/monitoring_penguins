@@ -2,3 +2,4 @@ seaborn
 scikit-learn
 python-dotenv
 pandas
+evidently

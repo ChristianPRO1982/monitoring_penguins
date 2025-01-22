@@ -1,7 +1,8 @@
 scikit-learn
 pandas
 joblib
-# prometheus-fastapi-instrumentator
+prometheus-fastapi-instrumentator
 uvicorn
 fastapi
 python-dotenv
+evidently

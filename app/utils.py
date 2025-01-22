@@ -1,12 +1,24 @@
 import dotenv
 import pandas as pd
 from joblib import load
-import os
-from logs import init_log, logging_msg
 import numpy as np
-import sys
+from evidently import ColumnMapping
+from evidently.report import Report
+from evidently.test_suite import TestSuite
+from evidently.metric_preset import TextEvals
+from evidently.descriptors import *
+from evidently.metrics import *
+from evidently.tests import *
+from evidently.features.llm_judge import BinaryClassificationPromptTemplate
+import os
+import warnings
+import requests
+from io import BytesIO
+from logs import init_log, logging_msg
 
 
+
+warnings.filterwarnings("ignore", category=UserWarning) # ras le bol des warnings de scikit-learn
 
 ####################################################################################################
 ####################################################################################################
@@ -68,10 +80,16 @@ def predict(
         X_valid_sample_transformed = scaler.transform([X_dummies.iloc[3]])
         y_pred_sample = model.predict(X_valid_sample_transformed)
 
+        # DASHBOARD EVIDENTLY
+        # dashboard = Dashboard(tabs=[DataDriftTab(), RegressionPerformanceTab()])
+        # dashboard.calculate(X, y_pred_sample)
+        # dashboard.show()
+        # response = requests.get("https://raw.githubusercontent.com/evidentlyai/evidently/main/examples/how_to_questions/chat_df.csv")
+        # csv_content = BytesIO(response.content)
+
+
         return y_pred_sample[0]
     
     except Exception as e:
-        print(f"Python version: {sys.version}")
-        print(f"Numpy version: {np.__version__}")
         logging_msg(f"{log_prefix} {e}", 'ERROR')
         return None
