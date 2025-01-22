@@ -1,5 +1,7 @@
-prometheus-fastapi-instrumentator
+scikit-learn
+pandas
+joblib
+# prometheus-fastapi-instrumentator
 uvicorn
 fastapi
-seaborn
-scikit-learn
+python-dotenv
