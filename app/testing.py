@@ -12,8 +12,8 @@ import utils
 # 147	Chinstrap	Dream	50.0	19.5	196.0	3900.0	Male
 
 print(utils.predict("Torgersen", 39.1, 18.7, 181.0, 3750.0, "Male"))
-print(utils.predict("Torgersen", 39.5, 17.4, 186.0, 3800.0, "Female"))
-print(utils.predict("Biscoe", 46.1, 13.2, 211.0, 4500.0, "Female"))
-print(utils.predict("Biscoe", 50.0, 16.3, 230.0, 5700.0, "Male"))
-print(utils.predict("Dream", 46.5, 17.9, 192.0, 3500.0, "Female"))
-print(utils.predict("Dream", 50.0, 19.5, 196., 3900.0, "Male"))
+# print(utils.predict("Torgersen", 39.5, 17.4, 186.0, 3800.0, "Female"))
+# print(utils.predict("Biscoe", 46.1, 13.2, 211.0, 4500.0, "Female"))
+# print(utils.predict("Biscoe", 50.0, 16.3, 230.0, 5700.0, "Male"))
+# print(utils.predict("Dream", 46.5, 17.9, 192.0, 3500.0, "Female"))
+# print(utils.predict("Dream", 50.0, 19.5, 196., 3900.0, "Male"))

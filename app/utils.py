@@ -2,17 +2,17 @@ import dotenv
 import pandas as pd
 from joblib import load
 import numpy as np
-from evidently import ColumnMapping
+from evidently.ui.workspace.cloud import CloudWorkspace
 from evidently.report import Report
-from evidently.test_suite import TestSuite
-from evidently.metric_preset import TextEvals
-from evidently.descriptors import *
+from evidently.metric_preset import DataQualityPreset
+from evidently.metric_preset import DataDriftPreset
 from evidently.metrics import *
+from evidently.test_suite import TestSuite
 from evidently.tests import *
-from evidently.features.llm_judge import BinaryClassificationPromptTemplate
+from evidently.test_preset import DataDriftTestPreset
+from evidently.tests.base_test import TestResult, TestStatus
 import os
 import warnings
-import requests
 from io import BytesIO
 from logs import init_log, logging_msg
 
@@ -81,11 +81,15 @@ def predict(
         y_pred_sample = model.predict(X_valid_sample_transformed)
 
         # DASHBOARD EVIDENTLY
-        # dashboard = Dashboard(tabs=[DataDriftTab(), RegressionPerformanceTab()])
-        # dashboard.calculate(X, y_pred_sample)
-        # dashboard.show()
-        # response = requests.get("https://raw.githubusercontent.com/evidentlyai/evidently/main/examples/how_to_questions/chat_df.csv")
-        # csv_content = BytesIO(response.content)
+        data_report = Report(
+                metrics=[
+                    DataDriftPreset(stattest='psi', stattest_threshold='0.3'),
+                    DataQualityPreset(),
+                ],
+            )
+
+        data_report.run(reference_data=X, current_data=X.iloc[0 : 100, :])
+        print(data_report.metrics)
 
 
         return y_pred_sample[0]
