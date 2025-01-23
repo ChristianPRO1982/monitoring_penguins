@@ -18,7 +18,9 @@ from logs import init_log, logging_msg
 
 
 
-warnings.filterwarnings("ignore", category=UserWarning) # ras le bol des warnings de scikit-learn
+# warnings.filterwarnings("ignore", category=UserWarning) # ras le bol des warnings de scikit-learn
+warnings.filterwarnings('ignore')
+warnings.simplefilter('ignore')
 
 ####################################################################################################
 ####################################################################################################
@@ -56,15 +58,14 @@ def predict(
             raise Exception("Error in utils.py predict(): init() failed")
 
         # MODEL
-        DOCKER = os.getenv("DOCKER")
-        if DOCKER == '1':
-            model = load('model_model.pkl')
-            scaler = load('model_scaler.pkl')
-        else:
-            model = load('./app/model_model.pkl')
-            scaler = load('./app/model_scaler.pkl')
+        PATH_MODEL = os.getenv('PATH_MODEL')
+        model = load(f'{PATH_MODEL}model_model.pkl')
+        scaler = load(f'{PATH_MODEL}model_scaler.pkl')
+        
+        # DATA FOR EVIDENTLY IA
+        reference = pd.read_csv(f'{PATH_MODEL}penguins.csv')
 
-        # DATA
+        # DATA FOR PREDICT
         data = {
             'island': ['Biscoe', 'Dream', 'Torgersen', island],
             'bill_length_mm': [0, 1, 2, bill_length_mm],

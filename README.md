@@ -5,6 +5,7 @@ Study project for monitoring the dataset penguins (by seaborn)
 The root file (requirements.txt) is for testing only, without docker.
 
 ### URL
+* http://localhost:8000/docs
 * http://localhost:9090/targets
 * http://localhost:9090/metrics
 * http://localhost:9100/metrics
@@ -19,4 +20,6 @@ The root file (requirements.txt) is for testing only, without docker.
 ```dotenv
 DEBUG=2 # 0: off, 1: on, 2: on with debug messages, 3: on with only SQL queries
 DOCKER=0
+
+PATH_MODEL='./model/'
 ```
