@@ -58,13 +58,12 @@ def predict(
             raise Exception("Error in utils.py predict(): init() failed")
 
         # MODEL
-        print(f">>>>> Current working directory: {os.getcwd()}")
         PATH_MODEL = os.getenv('PATH_MODEL')
         model = load(f'{PATH_MODEL}model_model.pkl')
         scaler = load(f'{PATH_MODEL}model_scaler.pkl')
         
         # DATA FOR EVIDENTLY IA
-        reference = pd.read_csv(f'{PATH_MODEL}penguins.csv')
+        reference = pd.read_csv(f'{PATH_MODEL}model_penguins.csv')
 
         # DATA FOR PREDICT
         data = {

@@ -18,8 +18,13 @@ The root file (requirements.txt) is for testing only, without docker.
 
 ### .env for debug without docker
 ```dotenv
-DEBUG=2 # 0: off, 1: on, 2: on with debug messages, 3: on with only SQL queries
-DOCKER=0
+DEBUG=2 # 0: off, 1: on, 2: on with debug messages, 3: on with only SQL queriesTorgersen
 
 PATH_MODEL='./model/'
+```
+
+for testing :
+```bash
+cd app
+python3 testing.py
 ```
