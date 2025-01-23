@@ -6,6 +6,7 @@ The root file (requirements.txt) is for testing only, without docker.
 
 ### URL
 * http://localhost:8000/docs
+* http://localhost:8000/metrics (pour afficher les metrics de Evidently AI)
 * http://localhost:9090/targets
 * http://localhost:9090/metrics
 * http://localhost:9100/metrics
