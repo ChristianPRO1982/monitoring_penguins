@@ -34,8 +34,8 @@ app.add_middleware(
 # Crée un endpoint /metric qui va écrire toutes les métriques
 # Instrumentator().instrument(app).expose(app)
 
-@app.get("/metrics")
-async def metrics():
+@app.get("/metrics2")
+async def metrics2():
     try:
         return None
     except Exception as e:

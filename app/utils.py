@@ -2,18 +2,18 @@ import dotenv
 import pandas as pd
 from joblib import load
 import numpy as np
-from evidently.ui.workspace.cloud import CloudWorkspace
-from evidently.report import Report
-from evidently.metric_preset import DataQualityPreset
-from evidently.metric_preset import DataDriftPreset
-from evidently.metrics import *
-from evidently.test_suite import TestSuite
-from evidently.tests import *
-from evidently.test_preset import DataDriftTestPreset
-from evidently.tests.base_test import TestResult, TestStatus
+# from evidently.ui.workspace.cloud import CloudWorkspace
+# from evidently.report import Report
+# from evidently.metric_preset import DataQualityPreset
+# from evidently.metric_preset import DataDriftPreset
+# from evidently.metrics import *
+# from evidently.test_suite import TestSuite
+# from evidently.tests import *
+# from evidently.test_preset import DataDriftTestPreset
+# from evidently.tests.base_test import TestResult, TestStatus
 import os
 import warnings
-from io import BytesIO
+# from io import BytesIO
 from logs import init_log, logging_msg
 
 
@@ -104,21 +104,21 @@ def predict(
         logging_msg(f"{log_prefix} prediction saved in pred_penguins.csv", 'DEBUG')
 
         # DATA FOR EVIDENTLY IA
-        reference = pd.read_csv(f'{PATH_MODEL}model_penguins.csv')
-        current = pd.read_csv(pred_penguins_path)
-        logging_msg(f"{log_prefix} reference and current data for evidently ia loaded", 'DEBUG')
+        # reference = pd.read_csv(f'{PATH_MODEL}model_penguins.csv')
+        # current = pd.read_csv(pred_penguins_path)
+        # logging_msg(f"{log_prefix} reference and current data for evidently ia loaded", 'DEBUG')
 
         # DASHBOARD EVIDENTLY
-        logging_msg(f"{log_prefix} START evidently ia dashboard")
-        report = Report(
-                metrics=[
-                    DataDriftPreset(),
-                    # DataQualityPreset(),
-                ],
-            )
+        # logging_msg(f"{log_prefix} START evidently ia dashboard")
+        # report = Report(
+        #         metrics=[
+        #             DataDriftPreset(),
+        #             # DataQualityPreset(),
+        #         ],
+        #     )
 
-        report.run(reference_data=reference, current_data=current)
-        report.save_html(f'{PATH_MODEL}report.html')
+        # report.run(reference_data=reference, current_data=current)
+        # report.save_html(f'{PATH_MODEL}report.html')
 
 
         return y_pred_sample[0]
