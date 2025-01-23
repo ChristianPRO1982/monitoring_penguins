@@ -37,6 +37,7 @@ def init()->bool:
             raise Exception("Error in utils.py init(): init_log() failed")
         
         PATH_MODEL = os.getenv('PATH_MODEL')
+
         pred_penguins_path = os.path.join(PATH_MODEL, 'pred_penguins.csv')
         if not os.path.exists(pred_penguins_path):
             reference_data = pd.read_csv(os.path.join(PATH_MODEL, 'model_penguins.csv'))
@@ -44,6 +45,14 @@ def init()->bool:
             logging_msg("pred_penguins.csv created")
         else:
             logging_msg("pred_penguins.csv already exists", 'DEBUG')
+
+        metrics_path = os.path.join(PATH_MODEL, 'metrics.json')
+        if not os.path.exists(metrics_path):
+            with open(metrics_path, 'w') as f:
+                f.write('{}')
+            logging_msg("metrics.json created")
+        else:
+            logging_msg("metrics.json already exists", 'DEBUG')
 
         return True
     
