@@ -58,6 +58,7 @@ def predict(
             raise Exception("Error in utils.py predict(): init() failed")
 
         # MODEL
+        print(f">>>>> Current working directory: {os.getcwd()}")
         PATH_MODEL = os.getenv('PATH_MODEL')
         model = load(f'{PATH_MODEL}model_model.pkl')
         scaler = load(f'{PATH_MODEL}model_scaler.pkl')
