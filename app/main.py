@@ -1,14 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 # from prometheus_fastapi_instrumentator import Instrumentator
-from evidently.telemetry.prometheus import PrometheusTelemetry
 from starlette.responses import PlainTextResponse
 from utils import predict
 
 
 app = FastAPI()
-
-telemetry = PrometheusTelemetry()
 
 
 @app.post("/")
@@ -39,11 +36,7 @@ app.add_middleware(
 
 @app.get("/metrics")
 async def metrics():
-    """
-    Expose les métriques Evidently pour Prometheus.
-    """
     try:
-        metrics_output = telemetry.generate_metrics_output()
-        return PlainTextResponse(metrics_output)
+        return None
     except Exception as e:
-        return PlainTextResponse(f"# Error: {str(e)}", status_code=500)
+        return e
