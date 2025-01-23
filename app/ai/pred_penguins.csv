@@ -24,4 +24,8 @@ Gentoo,Biscoe,50.2,15.5,230.0,5700.0,Male
 Chinstrap,Dream,49.0,18.7,200.0,3800.0,Female
 Chinstrap,Dream,53.0,20.5,205.0,4200.0,Male
 Adelie,Torgersen,40.5,18.1,185.0,3750.0,Female
+<<<<<<< HEAD
 Adelie,Torgersen,38.5,17.3,190.0,3850.0,MaleAdelie
+=======
+Adelie,Torgersen,38.5,17.3,190.0,3850.0,Male
+>>>>>>> e209b4b9589030fb380365416aad40b7e4c20340

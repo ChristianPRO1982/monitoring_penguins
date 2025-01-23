@@ -7,3 +7,4 @@ fastapi
 python-dotenv
 evidently
 python-dotenv
+starlette
