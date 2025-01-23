@@ -8,7 +8,7 @@ from evidently.report import Report
 from evidently.metric_preset import DataDriftPreset
 # from evidently.metrics import *
 # from evidently.test_suite import TestSuite
-# from evidently.tests import *
+# from evidently.tests import * 
 # from evidently.test_preset import DataDriftTestPreset
 # from evidently.tests.base_test import TestResult, TestStatus
 import os

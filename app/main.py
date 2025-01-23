@@ -35,7 +35,6 @@ app.add_middleware(
 # Crée un endpoint /metric qui va écrire toutes les métriques
 # Instrumentator().instrument(app).expose(app)
 
-<<<<<<< HEAD
 
 metrics = {}
 
@@ -57,11 +56,3 @@ def predict_route(island: str,
 @app.get("/metrics")
 def get_metrics():
     return JSONResponse(content=metrics)
-=======
-@app.get("/metrics2")
-async def metrics2():
-    try:
-        return None
-    except Exception as e:
-        return e
->>>>>>> e209b4b9589030fb380365416aad40b7e4c20340
