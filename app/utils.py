@@ -32,8 +32,19 @@ warnings.simplefilter('ignore')
 def init()->bool:
     try:
         dotenv.load_dotenv(override=True)
+
         if init_log() == False:
             raise Exception("Error in utils.py init(): init_log() failed")
+        
+        PATH_MODEL = os.getenv('PATH_MODEL')
+        pred_penguins_path = os.path.join(PATH_MODEL, 'pred_penguins.csv')
+        if not os.path.exists(pred_penguins_path):
+            reference_data = pd.read_csv(os.path.join(PATH_MODEL, 'model_penguins.csv'))
+            reference_data.head(0).to_csv(pred_penguins_path, index=False)
+            logging_msg("pred_penguins.csv created")
+        else:
+            logging_msg("pred_penguins.csv already exists", 'DEBUG')
+
         return True
     
     except Exception as e:
@@ -61,9 +72,7 @@ def predict(
         PATH_MODEL = os.getenv('PATH_MODEL')
         model = load(f'{PATH_MODEL}model_model.pkl')
         scaler = load(f'{PATH_MODEL}model_scaler.pkl')
-        
-        # DATA FOR EVIDENTLY IA
-        reference = pd.read_csv(f'{PATH_MODEL}model_penguins.csv')
+        logging_msg(f"{log_prefix} model and scaler loaded", 'DEBUG')
 
         # DATA FOR PREDICT
         data = {
@@ -75,22 +84,41 @@ def predict(
             'sex': ['Female', 'Male', 'Female', sex]
         }
         X = pd.DataFrame(data)
+        logging_msg(f"{log_prefix} data for prediction loaded", 'DEBUG')
         
         # PREDICTION
+        logging_msg(f"{log_prefix} START prediction")
         X_dummies = pd.get_dummies(X)
         X_valid_sample_transformed = scaler.transform([X_dummies.iloc[3]])
         y_pred_sample = model.predict(X_valid_sample_transformed)
 
+        # SAVE PREDICTION
+        pred_penguins_path = os.path.join(PATH_MODEL, 'pred_penguins.csv')
+        X_pred = X.iloc[3]
+        X_pred['species'] = y_pred_sample[0]
+        X_pred = pd.DataFrame([X_pred])
+        cols = X_pred.columns.tolist()
+        cols = cols[-1:] + cols[:-1]
+        X_pred = X_pred[cols]
+        X_pred.to_csv(pred_penguins_path, mode='a', header=False, index=False)
+        logging_msg(f"{log_prefix} prediction saved in pred_penguins.csv", 'DEBUG')
+
+        # DATA FOR EVIDENTLY IA
+        reference = pd.read_csv(f'{PATH_MODEL}model_penguins.csv')
+        current = pd.read_csv(pred_penguins_path)
+        logging_msg(f"{log_prefix} reference and current data for evidently ia loaded", 'DEBUG')
+
         # DASHBOARD EVIDENTLY
-        data_report = Report(
+        logging_msg(f"{log_prefix} START evidently ia dashboard")
+        report = Report(
                 metrics=[
-                    DataDriftPreset(stattest='psi', stattest_threshold='0.3'),
-                    DataQualityPreset(),
+                    DataDriftPreset(),
+                    # DataQualityPreset(),
                 ],
             )
 
-        data_report.run(reference_data=X, current_data=X.iloc[0 : 100, :])
-        print(data_report.metrics)
+        report.run(reference_data=reference, current_data=current)
+        report.save(f'{PATH_MODEL}report.html')
 
 
         return y_pred_sample[0]
