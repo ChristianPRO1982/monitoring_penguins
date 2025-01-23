@@ -1,19 +1,19 @@
 import dotenv
 import pandas as pd
 from joblib import load
-import numpy as np
-from evidently.ui.workspace.cloud import CloudWorkspace
+# import numpy as np
+# from evidently.ui.workspace.cloud import CloudWorkspace
 from evidently.report import Report
-from evidently.metric_preset import DataQualityPreset
+# from evidently.metric_preset import DataQualityPreset
 from evidently.metric_preset import DataDriftPreset
-from evidently.metrics import *
-from evidently.test_suite import TestSuite
-from evidently.tests import *
-from evidently.test_preset import DataDriftTestPreset
-from evidently.tests.base_test import TestResult, TestStatus
+# from evidently.metrics import *
+# from evidently.test_suite import TestSuite
+# from evidently.tests import *
+# from evidently.test_preset import DataDriftTestPreset
+# from evidently.tests.base_test import TestResult, TestStatus
 import os
 import warnings
-from io import BytesIO
+# from io import BytesIO
 from logs import init_log, logging_msg
 
 
@@ -118,7 +118,7 @@ def predict(
             )
 
         report.run(reference_data=reference, current_data=current)
-        report.save(f'{PATH_MODEL}report.html')
+        report.save_html(f'{PATH_MODEL}report.html')
 
 
         return y_pred_sample[0]
