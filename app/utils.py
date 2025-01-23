@@ -118,7 +118,7 @@ def predict(
             )
 
         report.run(reference_data=reference, current_data=current)
-        report.save(f'{PATH_MODEL}report.html')
+        # report.save(f'{PATH_MODEL}report.html')
 
 
         return y_pred_sample[0]
