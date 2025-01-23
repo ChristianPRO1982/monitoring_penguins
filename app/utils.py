@@ -19,8 +19,8 @@ from logs import init_log, logging_msg
 
 
 # warnings.filterwarnings("ignore", category=UserWarning) # ras le bol des warnings de scikit-learn
-warnings.filterwarnings('ignore')
-warnings.simplefilter('ignore')
+# warnings.filterwarnings('ignore')
+# warnings.simplefilter('ignore')
 
 ####################################################################################################
 ####################################################################################################
@@ -119,7 +119,6 @@ def predict(
 
         report.run(reference_data=reference, current_data=current)
         report.save_html(f'{PATH_MODEL}report.html')
-
 
         return y_pred_sample[0]
     
