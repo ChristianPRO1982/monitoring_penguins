@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 # from prometheus_fastapi_instrumentator import Instrumentator
 # from starlette import responses
 from utils import predict
-from drift_metrics import generate_metrics, get_metrics_by_json
+from drift_metrics import *
 # from fastapi.responses import JSONResponse
 
 
@@ -62,6 +62,8 @@ def concept_drift():
 
 @app.get("/metrics")
 def get_metrics():
+    remove_old_entries()
+
     metrics_data = get_metrics_by_json()
 
     prometheus_metrics = "# HELP drift_detected Indicates whether drift1 or drift2 has been detected.\n"

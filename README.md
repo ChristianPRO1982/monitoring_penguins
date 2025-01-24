@@ -22,7 +22,7 @@ The root file (requirements.txt) is for testing only, without docker.
 DEBUG=2 # 0: off, 1: on, 2: on with debug messages, 3: on with only SQL queriesTorgersen
 
 PATH_MODEL='./model/'
-LIMIT=100
+TIME_LIMIT=300 # seconds
 ```
 
 for testing :

@@ -54,6 +54,14 @@ def generate_metrics(concept_drift: bool, data_drift: bool)->bool:
             metrics_data = json.load(f)
         logging_msg(f"{log_prefix} metrics_data loaded", 'DEBUG')
 
+        if concept_drift:
+            concept_drift = 1
+        else:
+            concept_drift = 0
+        if data_drift:
+            data_drift = 1
+        else:
+            data_drift = 0
         timestamp = datetime.utcnow().isoformat()
         metrics_data.append({
             "timestamp": timestamp,
@@ -61,12 +69,6 @@ def generate_metrics(concept_drift: bool, data_drift: bool)->bool:
             "data_drift": data_drift
         })
         logging_msg(f"{log_prefix} new record added", 'DEBUG')
-        
-        # limit the list to LIMIT elements
-        LIMIT = os.getenv('LIMIT')
-        if len(metrics_data) > 100:
-            metrics_data.pop(0)
-        logging_msg(f"{log_prefix} metrics_data cleaned", 'DEBUG')
 
         with open(metrics_path, 'w') as f:
             json.dump(metrics_data, f)
@@ -101,3 +103,32 @@ def get_metrics_by_json()->list:
     except Exception as e:
         logging_msg(f"{log_prefix} {e}", 'ERROR')
         return []
+    
+
+def remove_old_entries():
+    log_prefix = '[drift_metrics | remove_old_entries]'
+    try:
+        PATH_MODEL = os.getenv('PATH_MODEL')
+        metrics_path = os.path.join(PATH_MODEL, 'metrics.json')
+
+        if init(metrics_path) == False:
+            raise Exception("Error in drift_metrics.py remove_old_entries(): init() failed")
+        logging_msg(f"{log_prefix} remove_old_entries() called")
+        
+        if not os.path.exists(metrics_path):
+            raise Exception("metrics.json does not exist")
+        
+        with open(metrics_path, 'r') as f:
+            metrics_data = json.load(f)
+        logging_msg(f"{log_prefix} metrics_data loaded", 'DEBUG')
+
+        x_minutes_ago = datetime.utcnow().timestamp() - 10
+        metrics_data = [entry for entry in metrics_data if datetime.fromisoformat(entry["timestamp"]).timestamp() > x_minutes_ago]
+        logging_msg(f"{log_prefix} old records removed", 'DEBUG')
+
+        with open(metrics_path, 'w') as f:
+            json.dump(metrics_data, f)
+        logging_msg(f"{log_prefix} metrics_data saved", 'DEBUG')
+        
+    except Exception as e:
+        logging_msg(f"{log_prefix} {e}", 'ERROR')
