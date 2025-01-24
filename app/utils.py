@@ -46,14 +46,6 @@ def init()->bool:
         else:
             logging_msg("pred_penguins.csv already exists", 'DEBUG')
 
-        metrics_path = os.path.join(PATH_MODEL, 'metrics.json')
-        if not os.path.exists(metrics_path):
-            with open(metrics_path, 'w') as f:
-                f.write('{}')
-            logging_msg("metrics.json created")
-        else:
-            logging_msg("metrics.json already exists", 'DEBUG')
-
         return True
     
     except Exception as e:
@@ -72,7 +64,9 @@ def predict(
         flipper_length_mm: float,
         body_mass_g: float,
         sex: str)->str:
+    
     log_prefix = '[utils | predict]'
+    
     try:
         if init() == False:
             raise Exception("Error in utils.py predict(): init() failed")

@@ -1,9 +1,10 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware
 # from prometheus_fastapi_instrumentator import Instrumentator
-# from starlette.responses import PlainTextResponse
+# from starlette import responses
 from utils import predict
-from fastapi.responses import JSONResponse
+from drift_metrics import generate_metrics, get_metrics_by_json
+# from fastapi.responses import JSONResponse
 
 
 app = FastAPI()
@@ -35,9 +36,40 @@ app.add_middleware(
 # Crée un endpoint /metric qui va écrire toutes les métriques
 # Instrumentator().instrument(app).expose(app)
 
+@app.get("/drifts")
+def drifts():
+    if generate_metrics(False, False):
+        return "test OK"
+    else:
+        return "test KO"
+
+
+@app.get("/concept_drift")
+def concept_drift():
+    if generate_metrics(True, False):
+        return "test OK"
+    else:
+        return "test KO"
+
+
+@app.get("/data_drift")
+def concept_drift():
+    if generate_metrics(False, True):
+        return "test OK"
+    else:
+        return "test KO"
+
 
 @app.get("/metrics")
 def get_metrics():
-    with open('./ai/metrics.json', 'r') as file:
-        metrics = file.read()
-    return JSONResponse(content=metrics)
+    metrics_data = get_metrics_by_json()
+
+    prometheus_metrics = "# HELP drift_detected Indicates whether drift1 or drift2 has been detected.\n"
+    prometheus_metrics += "# TYPE drift_detected gauge\n"
+
+    for record in metrics_data:
+        timestamp = record["timestamp"]  # Pour information humaine, non inclus directement par Prometheus
+        prometheus_metrics += f'drift_detected{{variable="concept_drift", timestamp="{timestamp}"}} {record["concept_drift"]}\n'
+        prometheus_metrics += f'drift_detected{{variable="data_drift", timestamp="{timestamp}"}} {record["data_drift"]}\n'
+    
+    return Response(content=prometheus_metrics, media_type="text/plain")
