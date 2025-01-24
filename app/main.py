@@ -7,6 +7,7 @@ from drift_metrics import *
 # from fastapi.responses import JSONResponse
 
 
+
 app = FastAPI()
 
 
@@ -62,16 +63,16 @@ def concept_drift():
 
 @app.get("/metrics")
 def get_metrics():
-    remove_old_entries()
+    group_by()
 
     metrics_data = get_metrics_by_json()
 
-    prometheus_metrics = "# HELP drift_detected Indicates whether drift1 or drift2 has been detected.\n"
+    prometheus_metrics = "# HELP drift_detected Indicates whether concept_drift or data_drift has been detected.\n"
     prometheus_metrics += "# TYPE drift_detected gauge\n"
 
     for record in metrics_data:
         timestamp = record["timestamp"]  # Pour information humaine, non inclus directement par Prometheus
-        prometheus_metrics += f'drift_detected{{variable="concept_drift", timestamp="{timestamp}"}} {record["concept_drift"]}\n'
-        prometheus_metrics += f'drift_detected{{variable="data_drift", timestamp="{timestamp}"}} {record["data_drift"]}\n'
+        prometheus_metrics += f'drift_detected{{variable="concept_drift", group_by="{groupby}", timestamp="{timestamp}"}} {record["concept_drift"]}\n'
+        prometheus_metrics += f'drift_detected{{variable="data_drift", group_by="{record["groupby"]}", timestamp="{timestamp}"}} {record["data_drift"]}\n'
     
     return Response(content=prometheus_metrics, media_type="text/plain")

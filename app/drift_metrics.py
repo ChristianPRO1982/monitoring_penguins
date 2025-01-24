@@ -8,6 +8,8 @@ from logs import init_log, logging_msg
 
 
 
+groupby = 0
+
 ####################################################################################################
 ####################################################################################################
 ####################################################################################################
@@ -28,7 +30,7 @@ def init(metrics_path: str)->bool:
             logging_msg("metrics.json created")
         else:
             logging_msg("metrics.json already exists", 'DEBUG')
-
+        
         return True
     
     except Exception as e:
@@ -54,6 +56,7 @@ def generate_metrics(concept_drift: bool, data_drift: bool)->bool:
             metrics_data = json.load(f)
         logging_msg(f"{log_prefix} metrics_data loaded", 'DEBUG')
 
+        global groupby
         if concept_drift:
             concept_drift = 1
         else:
@@ -66,7 +69,8 @@ def generate_metrics(concept_drift: bool, data_drift: bool)->bool:
         metrics_data.append({
             "timestamp": timestamp,
             "concept_drift": concept_drift,
-            "data_drift": data_drift
+            "data_drift": data_drift,
+            "groupby": groupby,
         })
         logging_msg(f"{log_prefix} new record added", 'DEBUG')
 
@@ -102,33 +106,22 @@ def get_metrics_by_json()->list:
     
     except Exception as e:
         logging_msg(f"{log_prefix} {e}", 'ERROR')
-        return []
+        return [], []
     
 
-def remove_old_entries():
-    log_prefix = '[drift_metrics | remove_old_entries]'
+def group_by():
+    log_prefix = '[drift_metrics | group_by]'
     try:
         PATH_MODEL = os.getenv('PATH_MODEL')
         metrics_path = os.path.join(PATH_MODEL, 'metrics.json')
 
         if init(metrics_path) == False:
-            raise Exception("Error in drift_metrics.py remove_old_entries(): init() failed")
-        logging_msg(f"{log_prefix} remove_old_entries() called")
+            raise Exception("Error in drift_metrics.py group_by(): init() failed")
+        logging_msg(f"{log_prefix} group_by() called")
         
-        if not os.path.exists(metrics_path):
-            raise Exception("metrics.json does not exist")
-        
-        with open(metrics_path, 'r') as f:
-            metrics_data = json.load(f)
-        logging_msg(f"{log_prefix} metrics_data loaded", 'DEBUG')
-
-        x_minutes_ago = datetime.utcnow().timestamp() - 10
-        metrics_data = [entry for entry in metrics_data if datetime.fromisoformat(entry["timestamp"]).timestamp() > x_minutes_ago]
-        logging_msg(f"{log_prefix} old records removed", 'DEBUG')
-
-        with open(metrics_path, 'w') as f:
-            json.dump(metrics_data, f)
-        logging_msg(f"{log_prefix} metrics_data saved", 'DEBUG')
+        global groupby
+        groupby += 1
+        logging_msg(f"{log_prefix} groupby = {groupby}", 'DEBUG')
         
     except Exception as e:
         logging_msg(f"{log_prefix} {e}", 'ERROR')
