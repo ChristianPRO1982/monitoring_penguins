@@ -1,10 +1,7 @@
 from fastapi import FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware
-# from prometheus_fastapi_instrumentator import Instrumentator
-# from starlette import responses
 from utils import predict
 from drift_metrics import *
-# from fastapi.responses import JSONResponse
 
 
 

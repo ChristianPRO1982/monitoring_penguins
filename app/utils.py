@@ -1,26 +1,13 @@
 import dotenv
 import pandas as pd
 from joblib import load
-# import numpy as np
-# from evidently.ui.workspace.cloud import CloudWorkspace
 from evidently.report import Report
-# from evidently.metric_preset import DataQualityPreset
 from evidently.metric_preset import DataDriftPreset
-# from evidently.metrics import *
-# from evidently.test_suite import TestSuite
-# from evidently.tests import * 
-# from evidently.test_preset import DataDriftTestPreset
-# from evidently.tests.base_test import TestResult, TestStatus
 import os
 import warnings
-# from io import BytesIO
 from logs import init_log, logging_msg
 
 
-
-# warnings.filterwarnings("ignore", category=UserWarning) # ras le bol des warnings de scikit-learn
-# warnings.filterwarnings('ignore')
-# warnings.simplefilter('ignore')
 
 ####################################################################################################
 ####################################################################################################
