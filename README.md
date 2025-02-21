@@ -1,6 +1,33 @@
 # monitoring_penguins
 Study project for monitoring the dataset penguins (by seaborn)
 
+## to generate drift monitoring on Grafana
+
+### 1. Make Predictions
+Use the `/predict` endpoint to generate species predictions based on input features.
+
+### 2. Generate Drift Reports
+The API provides three endpoints to generate drift reports:
+- **`/drifts`**: Provides an overall drift report.
+- **`/concept_drift`**: Detects concept drift in the model.
+- **`/data_drift`**: Detects data drift in the dataset.
+
+### 3. Generate Metrics for Grafana
+The `/metrics` endpoint exposes drift-related metrics in a Prometheus-compatible format. Grafana is automatically updated with these metrics.
+
+## Integration with Grafana
+Prometheus scrapes the `/metrics` endpoint to collect drift data, and Grafana visualizes these metrics for real-time monitoring.
+
+## example to generate species predictions
+
+| species | island    | bill_length_mm | bill_depth_mm | flipper_length_mm | body_mass_g | sex    |
+|---------|----------|---------------|--------------|------------------|------------|--------|
+| Adelie  | Torgersen | 39.1          | 18.7         | 181.0            | 3750.0     | Male   |
+| Adelie  | Torgersen | 39.5          | 17.4         | 186.0            | 3800.0     | Female |
+| Adelie  | Torgersen | 40.3          | 18.0         | 195.0            | 3250.0     | Female |
+| Adelie  | Torgersen | NaN           | NaN          | NaN              | NaN        | NaN    |
+| Adelie  | Torgersen | 36.7          | 19.3         | 193.0            | 3450.0     | Female |
+
 ## Notes
 The root file (requirements.txt) is for testing only, without docker.
 
